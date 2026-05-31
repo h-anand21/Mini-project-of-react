@@ -1,0 +1,26 @@
+.turn-container {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.turn {
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.1),
+             -4px -4px 10px rgba(255,255,255,0.8);
+}
+
+.chai-turn {
+  background: var(--card);
+  color: var(--tea);
+}
+
+.biscuit-turn {
+  background: var(--card);
+  color: var(--cookie);
+}

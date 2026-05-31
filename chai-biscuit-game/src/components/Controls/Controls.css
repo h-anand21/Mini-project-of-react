@@ -1,0 +1,40 @@
+.controls {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 15px 30px;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(2px);
+}
+
+.btn-primary {
+  background: var(--tea);
+  color: white;
+  box-shadow: 0 4px 15px rgba(199, 106, 42, 0.4);
+}
+
+.btn-secondary {
+  background: var(--card);
+  color: var(--dark);
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.1),
+             -4px -4px 10px rgba(255,255,255,0.8);
+}

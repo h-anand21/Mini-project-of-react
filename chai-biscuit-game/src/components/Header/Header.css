@@ -1,0 +1,47 @@
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--dark);
+  text-shadow: 2px 2px 0 #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.icon {
+  font-size: 3.5rem;
+  filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.2));
+}
+
+.vs {
+  font-size: 2.5rem;
+  color: var(--tea);
+  margin: 0 10px;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: var(--cookie);
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: -10px;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  .icon {
+    font-size: 2rem;
+  }
+  .vs {
+    font-size: 1.5rem;
+  }
+}

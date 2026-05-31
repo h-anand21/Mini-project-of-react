@@ -1,122 +1,101 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React, { useState } from 'react';
+import Confetti from 'react-confetti';
+import { AnimatePresence, motion } from 'framer-motion';
+import Header from './components/Header/Header';
+import PlayerCard from './components/PlayerCard/PlayerCard';
+import Board from './components/Board/Board';
+import TurnIndicator from './components/Status/TurnIndicator';
+import Controls from './components/Controls/Controls';
+import Footer from './components/Footer/Footer';
+import { calculateWinner } from './utils/calculateWinner';
+import chaiIcon from './assets/images/chai.png';
+import biscuitIcon from './assets/images/biscuit.png';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [squares, setSquares] = useState(Array(9).fill(null));
+  const [xIsNext, setXIsNext] = useState(true);
+  const [scores, setScores] = useState({ X: 0, O: 0 });
+
+  const winInfo = calculateWinner(squares);
+  const winner = winInfo ? winInfo.winner : null;
+  const isDraw = !winner && squares.every((square) => square !== null);
+
+  const handleClick = (i) => {
+    if (squares[i] || winner) return;
+
+    const nextSquares = squares.slice();
+    nextSquares[i] = xIsNext ? 'X' : 'O';
+    setSquares(nextSquares);
+    setXIsNext(!xIsNext);
+
+    const newWinInfo = calculateWinner(nextSquares);
+    if (newWinInfo) {
+      setScores((prev) => ({
+        ...prev,
+        [newWinInfo.winner]: prev[newWinInfo.winner] + 1,
+      }));
+    }
+  };
+
+  const resetRound = () => {
+    setSquares(Array(9).fill(null));
+    setXIsNext(true); // Chai always starts new round
+  };
+
+  const resetGame = () => {
+    setSquares(Array(9).fill(null));
+    setXIsNext(true);
+    setScores({ X: 0, O: 0 });
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app">
+      {winner && <Confetti recycle={false} numberOfPieces={500} gravity={0.2} />}
+      <Header />
+      
+      <TurnIndicator isXNext={xIsNext} />
 
-      <div className="ticks"></div>
+      <div className="game-layout">
+        <PlayerCard 
+          player="player1"
+          name="Player 1"
+          score={scores.X}
+          isActive={xIsNext && !winner && !isDraw}
+          icon={<img src={chaiIcon} alt="Chai" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />}
+        />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <Board squares={squares} onClick={handleClick} />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <PlayerCard 
+          player="player2"
+          name="Player 2"
+          score={scores.O}
+          isActive={!xIsNext && !winner && !isDraw}
+          icon={<img src={biscuitIcon} alt="Biscuit" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />}
+        />
+      </div>
+
+      <AnimatePresence>
+        {(winner || isDraw) && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="status-message clay-card"
+            style={{ padding: '20px 40px', marginTop: '20px', textAlign: 'center', backgroundColor: 'var(--card)' }}
+          >
+            <h2 style={{ color: winner === 'X' ? 'var(--tea)' : winner === 'O' ? 'var(--cookie)' : 'var(--dark)', margin: 0 }}>
+              {winner ? `🎉 ${winner === 'X' ? 'Chai' : 'Biscuit'} Wins!` : '🤝 Match Draw! Tea Time ☕'}
+            </h2>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <Controls onNewRound={resetRound} onReset={resetGame} />
+
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+export default App;

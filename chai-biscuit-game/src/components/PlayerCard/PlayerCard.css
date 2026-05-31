@@ -1,0 +1,88 @@
+.player-card {
+  width: 200px;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  transition: 0.3s;
+  opacity: 0.6;
+  transform: scale(0.95);
+}
+
+.player-card.active {
+  opacity: 1;
+  transform: scale(1);
+  box-shadow: 12px 12px 24px var(--shadow-dark),
+             -10px -10px 20px var(--shadow-light),
+             inset 0 0 0 4px var(--tea);
+}
+
+.player-card.active.player2 {
+  box-shadow: 12px 12px 24px var(--shadow-dark),
+             -10px -10px 20px var(--shadow-light),
+             inset 0 0 0 4px var(--cookie);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  filter: drop-shadow(0 8px 10px rgba(0,0,0,0.15));
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.player-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.score-box {
+  background: var(--bg);
+  padding: 10px 20px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  box-shadow: inset 4px 4px 10px rgba(0,0,0,0.05),
+              inset -4px -4px 10px rgba(255,255,255,0.5);
+}
+
+.score-box span:first-child {
+  font-size: 0.9rem;
+  color: var(--dark);
+  opacity: 0.8;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.score {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--tea);
+}
+
+.player-card.player2 .score {
+  color: var(--cookie);
+}
+
+@media (max-width: 768px) {
+  .player-card {
+    width: 150px;
+    padding: 20px 15px;
+  }
+  .avatar {
+    width: 60px;
+    height: 60px;
+  }
+}
