@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const Square = ({ value, onClick }) => {
+const Square = ({ value, onClick, theme }) => {
   return (
     <motion.button 
       className="cell" 
@@ -11,7 +11,7 @@ const Square = ({ value, onClick }) => {
     >
       {value === 'X' && (
         <motion.img
-          src="/src/assets/images/code.png"
+          src={`/themes/${theme}/code.png`}
           alt="Code"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -21,7 +21,7 @@ const Square = ({ value, onClick }) => {
       )}
       {value === 'O' && (
         <motion.img
-          src="/src/assets/images/bug.png"
+          src={`/themes/${theme}/bug.png`}
           alt="Bug"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}

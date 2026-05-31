@@ -6,28 +6,51 @@
   gap: 10px;
 }
 
-.logo {
-  font-size: 55px;
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  justify-content: center;
+}
+
+.logo-icon {
+  width: 75px;
+  height: auto;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.4));
+}
+
+.logo-text {
+  font-size: 65px;
   font-weight: 900;
-  color: #ffb347;
-  text-shadow: 0 0 15px #ff9d00, 0 0 30px #ff9d00;
+  /* Glossy 3D Game Title Design */
+  background: linear-gradient(to bottom, #fff5cc, #ff9900);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 6px 0 #994d00) drop-shadow(0 12px 15px rgba(0,0,0,0.5));
   margin: 0;
   line-height: 1;
+  letter-spacing: 2px;
 }
 
 .header-pill {
   background: linear-gradient(to bottom, #fde4bf, #e6c190);
-  padding: 10px 40px;
+  padding: 12px 45px;
   border-radius: 50px;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 900;
   box-shadow: 
     0 8px 0 #b38854,
     0 15px 25px rgba(0,0,0,0.5), 
     inset 0 6px 12px rgba(255,255,255,0.8);
   margin-top: 10px;
-  display: inline-block;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
   position: relative;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .header-pill::before {

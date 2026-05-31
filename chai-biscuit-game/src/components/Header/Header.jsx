@@ -1,10 +1,14 @@
 import React from 'react';
 import './Header.css';
+import logoChai from '../../assets/images/logo-chai.png';
 
 const Header = () => {
   return (
     <div className="header">
-      <h1 className="logo">☕ ChaiCode</h1>
+      <div className="logo-wrapper">
+        <img src={logoChai} alt="Chai Logo" className="logo-icon" />
+        <h1 className="logo-text">ChaiCode</h1>
+      </div>
       <div className="header-pill">
         <span className="code-text">Code</span>
         <span className="vs">vs</span>

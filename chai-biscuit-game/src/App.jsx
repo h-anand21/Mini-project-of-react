@@ -7,15 +7,15 @@ import Board from './components/Board/Board';
 import TurnIndicator from './components/Status/TurnIndicator';
 import Controls from './components/Controls/Controls';
 import Footer from './components/Footer/Footer';
+import ThemeSelector from './components/ThemeSelector/ThemeSelector';
 import { calculateWinner } from './utils/calculateWinner';
-import codeIcon from './assets/images/code.png';
-import bugIcon from './assets/images/bug.png';
 import './App.css';
 
 function App() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
   const [scores, setScores] = useState({ X: 0, O: 0 });
+  const [theme, setTheme] = useState('orange');
 
   const winInfo = calculateWinner(squares);
   const winner = winInfo ? winInfo.winner : null;
@@ -49,11 +49,33 @@ function App() {
     setScores({ X: 0, O: 0 });
   };
 
+  const renderConfetti = () => {
+    if (winner === 'X') {
+      return (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
+          <Confetti recycle={false} numberOfPieces={100} gravity={0.25} drawShape={ctx => { ctx.font='35px sans-serif'; ctx.fillText('☕', -15, 10); }} />
+          <Confetti recycle={false} numberOfPieces={100} gravity={0.25} drawShape={ctx => { ctx.font='35px sans-serif'; ctx.fillText('🍪', -15, 10); }} />
+          <Confetti recycle={false} numberOfPieces={80} gravity={0.25} drawShape={ctx => { ctx.font='35px sans-serif'; ctx.fillText('💻', -15, 10); }} />
+        </div>
+      );
+    } else if (winner === 'O') {
+      return (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
+          <Confetti recycle={false} numberOfPieces={100} gravity={0.25} drawShape={ctx => { ctx.font='35px sans-serif'; ctx.fillText('🐞', -15, 10); }} />
+          <Confetti recycle={false} numberOfPieces={100} gravity={0.25} drawShape={ctx => { ctx.font='35px sans-serif'; ctx.fillText('💥', -15, 10); }} />
+          <Confetti recycle={false} numberOfPieces={80} gravity={0.25} drawShape={ctx => { ctx.font='35px sans-serif'; ctx.fillText('🔥', -15, 10); }} />
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <div className="app-container">
+    <div className="app-container" data-theme={theme}>
+      <ThemeSelector currentTheme={theme} onThemeChange={setTheme} />
       <div className="bg-decorations"></div>
       
-      {winner && <Confetti recycle={false} numberOfPieces={600} gravity={0.3} colors={['#7EA04D', '#FF9D00', '#F8E3C5', '#D85A4F']} />}
+      {renderConfetti()}
       
       <div className="game-content">
         <div className="game-layout">
@@ -65,7 +87,7 @@ function App() {
             subtitle="Code"
             score={scores.X}
             isActive={xIsNext && !winner && !isDraw}
-            icon={<img src={codeIcon} alt="Code" />}
+            icon={<img src={`/themes/${theme}/code.png`} alt="Code" />}
           />
 
           {/* Center Column */}
@@ -74,7 +96,7 @@ function App() {
             
             <div style={{ position: 'relative', marginTop: '15px' }}>
               <TurnIndicator isXNext={xIsNext} />
-              <Board squares={squares} onClick={handleClick} />
+              <Board squares={squares} onClick={handleClick} theme={theme} />
             </div>
 
             <div className="bottom-plank">
@@ -91,7 +113,7 @@ function App() {
             subtitle="Bug"
             score={scores.O}
             isActive={!xIsNext && !winner && !isDraw}
-            icon={<img src={bugIcon} alt="Bug" />}
+            icon={<img src={`/themes/${theme}/bug.png`} alt="Bug" />}
           />
         </div>
 

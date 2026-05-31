@@ -1,3 +1,39 @@
+:root, [data-theme="orange"] {
+  --theme-board-outer: #814c25;
+  --theme-board-inner: #c39160;
+  --theme-board-cell: #f3d4a4;
+  --theme-border: #5a341e;
+  --theme-accent: #ff9d00;
+  --theme-accent-glow: rgba(255, 157, 0, 0.6);
+}
+
+[data-theme="green"] {
+  --theme-board-outer: #4a752c;
+  --theme-board-inner: #7ba356;
+  --theme-board-cell: #d5e6c5;
+  --theme-border: #32521c;
+  --theme-accent: #7ea04d;
+  --theme-accent-glow: rgba(126, 160, 77, 0.6);
+}
+
+[data-theme="bule"] {
+  --theme-board-outer: #37648f;
+  --theme-board-inner: #6798c9;
+  --theme-board-cell: #d6e8fa;
+  --theme-border: #234463;
+  --theme-accent: #3498db;
+  --theme-accent-glow: rgba(52, 152, 219, 0.6);
+}
+
+[data-theme="purpal"] {
+  --theme-board-outer: #6a347d;
+  --theme-board-inner: #9c60b0;
+  --theme-board-cell: #e9d6f0;
+  --theme-border: #4d235c;
+  --theme-accent: #9b59b6;
+  --theme-accent-glow: rgba(155, 89, 182, 0.6);
+}
+
 .app-container {
   height: 100vh;
   width: 100vw;
