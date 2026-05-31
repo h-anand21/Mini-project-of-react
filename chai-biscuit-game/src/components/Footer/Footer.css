@@ -1,20 +1,58 @@
 .footer {
   margin-top: auto;
-  padding: 20px 0;
+  padding: 5px 0 10px 0;
   width: 100%;
   display: flex;
   justify-content: center;
+  z-index: 10;
+}
+
+.footer-card {
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, #fde4bf, #e6c190);
+  padding: 15px 40px;
+  border-radius: 20px;
+  box-shadow: 
+    0 8px 0 #b38854,
+    0 20px 30px rgba(0,0,0,0.6), 
+    inset 0 6px 12px rgba(255,255,255,0.8);
+  width: 820px;
+  text-align: center;
+  z-index: 5;
+}
+
+.footer-card::before {
+  content: "";
+  position: absolute;
+  top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border-radius: 14px;
+  border: 2px dashed rgba(138, 87, 43, 0.4);
+  pointer-events: none;
+}
+
+.footer-card p {
+  color: #5a341e;
+  font-weight: 800;
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.5);
 }
 
 .quote-card {
-  padding: 15px 30px;
-  border-radius: 20px;
+  padding: 10px 25px;
+  border-radius: 30px;
+  background: var(--cream);
+  border: 3px solid var(--wood);
 }
 
 .quote-card p {
-  color: var(--tea);
-  font-weight: 600;
+  color: var(--wood-dark);
+  font-weight: 800;
   font-size: 1.1rem;
-  font-style: italic;
   text-align: center;
+  margin: 0;
 }

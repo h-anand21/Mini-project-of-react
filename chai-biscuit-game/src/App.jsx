@@ -8,8 +8,8 @@ import TurnIndicator from './components/Status/TurnIndicator';
 import Controls from './components/Controls/Controls';
 import Footer from './components/Footer/Footer';
 import { calculateWinner } from './utils/calculateWinner';
-import chaiIcon from './assets/images/chai.png';
-import biscuitIcon from './assets/images/biscuit.png';
+import codeIcon from './assets/images/code.png';
+import bugIcon from './assets/images/bug.png';
 import './App.css';
 
 function App() {
@@ -40,7 +40,7 @@ function App() {
 
   const resetRound = () => {
     setSquares(Array(9).fill(null));
-    setXIsNext(true); // Chai always starts new round
+    setXIsNext(true); // Developer always starts new round
   };
 
   const resetGame = () => {
@@ -50,50 +50,74 @@ function App() {
   };
 
   return (
-    <div className="app">
-      {winner && <Confetti recycle={false} numberOfPieces={500} gravity={0.2} />}
-      <Header />
+    <div className="app-container">
+      <div className="bg-decorations"></div>
       
-      <TurnIndicator isXNext={xIsNext} />
+      {winner && <Confetti recycle={false} numberOfPieces={600} gravity={0.3} colors={['#7EA04D', '#FF9D00', '#F8E3C5', '#D85A4F']} />}
+      
+      <div className="game-content">
+        <div className="game-layout">
+          {/* Left Column */}
+          <PlayerCard 
+            player="player1"
+            playerNumber="PLAYER 1"
+            name="Developer"
+            subtitle="Code"
+            score={scores.X}
+            isActive={xIsNext && !winner && !isDraw}
+            icon={<img src={codeIcon} alt="Code" />}
+          />
 
-      <div className="game-layout">
-        <PlayerCard 
-          player="player1"
-          name="Player 1"
-          score={scores.X}
-          isActive={xIsNext && !winner && !isDraw}
-          icon={<img src={chaiIcon} alt="Chai" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />}
-        />
+          {/* Center Column */}
+          <div className="center-column">
+            <Header />
+            
+            <div style={{ position: 'relative', marginTop: '15px' }}>
+              <TurnIndicator isXNext={xIsNext} />
+              <Board squares={squares} onClick={handleClick} />
+            </div>
 
-        <Board squares={squares} onClick={handleClick} />
+            <div className="bottom-plank">
+              <Controls onNewRound={resetRound} onReset={resetGame} />
+              <Footer />
+            </div>
+          </div>
 
-        <PlayerCard 
-          player="player2"
-          name="Player 2"
-          score={scores.O}
-          isActive={!xIsNext && !winner && !isDraw}
-          icon={<img src={biscuitIcon} alt="Biscuit" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />}
-        />
+          {/* Right Column */}
+          <PlayerCard 
+            player="player2"
+            playerNumber="PLAYER 2"
+            name="Bug"
+            subtitle="Bug"
+            score={scores.O}
+            isActive={!xIsNext && !winner && !isDraw}
+            icon={<img src={bugIcon} alt="Bug" />}
+          />
+        </div>
+
+        <AnimatePresence>
+          {(winner || isDraw) && (
+            <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, pointerEvents: 'none' }}>
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                className="status-message clay-card"
+                style={{ padding: '30px 50px', textAlign: 'center', border: '5px solid var(--wood)', background: 'var(--cream)', pointerEvents: 'auto', boxShadow: '0 20px 50px rgba(0,0,0,0.7)' }}
+              >
+                <h2 style={{ color: winner === 'X' ? 'var(--neon-green)' : winner === 'O' ? 'var(--neon-red)' : 'var(--wood-dark)', margin: 0, fontSize: '2.5rem', textShadow: '0 2px 4px rgba(0,0,0,0.3)', fontWeight: '900' }}>
+                  {winner ? `🎉 ${winner === 'X' ? 'Developer' : 'Bug'} Wins!` : '🤝 Match Draw! Keep Coding 💻'}
+                </h2>
+                <div style={{ marginTop: '20px' }}>
+                  <button className="btn btn-primary" onClick={resetRound} style={{ margin: '0 auto' }}>
+                    🚀 New Commit (Next Round)
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
-
-      <AnimatePresence>
-        {(winner || isDraw) && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="status-message clay-card"
-            style={{ padding: '20px 40px', marginTop: '20px', textAlign: 'center', backgroundColor: 'var(--card)' }}
-          >
-            <h2 style={{ color: winner === 'X' ? 'var(--tea)' : winner === 'O' ? 'var(--cookie)' : 'var(--dark)', margin: 0 }}>
-              {winner ? `🎉 ${winner === 'X' ? 'Chai' : 'Biscuit'} Wins!` : '🤝 Match Draw! Tea Time ☕'}
-            </h2>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <Controls onNewRound={resetRound} onReset={resetGame} />
-
-      <Footer />
     </div>
   );
 }

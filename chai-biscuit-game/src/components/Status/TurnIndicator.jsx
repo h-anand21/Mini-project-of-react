@@ -8,23 +8,23 @@ const TurnIndicator = ({ isXNext }) => {
       <AnimatePresence mode="wait">
         {isXNext ? (
           <motion.div
-            key="chai"
+            key="code"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
-            className="turn chai-turn"
+            className="turn code-turn"
           >
-            ☕ Player 1 (Chai) Turn
+            💻 Developer's Turn
           </motion.div>
         ) : (
           <motion.div
-            key="biscuit"
+            key="bug"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
-            className="turn biscuit-turn"
+            className="turn bug-turn"
           >
-            🍪 Player 2 (Biscuit) Turn
+            🐞 Bug's Turn
           </motion.div>
         )}
       </AnimatePresence>

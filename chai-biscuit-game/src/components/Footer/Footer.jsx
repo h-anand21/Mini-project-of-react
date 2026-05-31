@@ -3,10 +3,8 @@ import './Footer.css';
 
 const Footer = () => {
   return (
-    <div className="footer">
-      <div className="quote-card clay-card">
-        <p>✨ "Chai is strong, Biscuit is crunchy – Let the battle begin!" ✨</p>
-      </div>
+    <div className="footer-card">
+      <p>Great code brews like a perfect cup of chai –<br/>Strong, warm and bug free! ☕✨</p>
     </div>
   );
 };

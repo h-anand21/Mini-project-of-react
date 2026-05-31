@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Fira+Code:wght@600&display=swap');
 
 * {
   margin: 0;
@@ -7,24 +7,28 @@
 }
 
 :root {
-  --bg: #F3DEC0;
-  --card: #FFF4E5;
-  --dark: #6B2D2D;
-  --tea: #C76A2A;
-  --cookie: #D98B4A;
-  --shadow-dark: rgba(0, 0, 0, 0.15);
-  --shadow-light: rgba(255, 255, 255, 0.4);
+  --bg-color: #1B120D;
+  --wood: #5A341E;
+  --wood-dark: #3E2211;
+  --cream: #F8E3C5;
+  --cream-dark: #e8d0ae;
+  --neon-orange: #FF9D00;
+  --neon-green: #7EA04D;
+  --neon-red: #D85A4F;
+  --shadow-dark: rgba(0, 0, 0, 0.6);
+  --shadow-light: rgba(255, 255, 255, 0.1);
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background-color: var(--bg);
-  color: var(--dark);
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--cream);
+  overflow-x: hidden;
 }
 
 .clay-card {
-  background: var(--card);
-  border-radius: 32px;
-  box-shadow: 12px 12px 24px var(--shadow-dark),
-             -10px -10px 20px var(--shadow-light);
+  background: var(--cream);
+  border-radius: 28px;
+  box-shadow: 8px 8px 16px var(--shadow-dark),
+             -8px -8px 16px var(--shadow-light);
 }
