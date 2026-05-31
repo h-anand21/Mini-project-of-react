@@ -1,0 +1,180 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Poppins:wght@400;500;600&display=swap');
+
+@theme {
+  --color-paper: #fcf9f2;
+  --color-ink: #222222;
+  
+  /* Component specific colors */
+  --color-btn-green: #dcf5d6;
+  --color-btn-yellow: #fff3c4;
+  --color-btn-red: #ffd1d1;
+  --color-btn-purple: #e9e0ff;
+  
+  --color-note-yellow: #fff8c4;
+  --color-note-pink: #ffe6eb;
+  --color-note-green: #e9fae6;
+  
+  --color-marker-pink: #ffd9e2;
+  --color-marker-purple: #ebdfff;
+}
+
+@layer base {
+  :root {
+    --color-paper: #fcf9f2;
+    --color-ink: #222222;
+    
+    --color-btn-green: #dcf5d6;
+    --color-btn-yellow: #fff3c4;
+    --color-btn-red: #ffd1d1;
+    --color-btn-purple: #e9e0ff;
+    
+    --color-note-yellow: #fff8c4;
+    --color-note-pink: #ffe6eb;
+    --color-note-green: #e9fae6;
+    
+    --color-marker-pink: #ffd9e2;
+    --color-marker-purple: #ebdfff;
+  }
+
+  .dark {
+    --color-paper: #1a1a1a;
+    --color-ink: #e0e0e0;
+    
+    --color-btn-green: #2d5a27;
+    --color-btn-yellow: #6b5a15;
+    --color-btn-red: #733636;
+    --color-btn-purple: #463b63;
+    
+    --color-note-yellow: #5a501e;
+    --color-note-pink: #63323e;
+    --color-note-green: #2d502d;
+    
+    --color-marker-pink: #7d4b58;
+    --color-marker-purple: #5c4b7d;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    background-image: radial-gradient(rgba(0,0,0,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .dark body {
+    background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+  }
+}
+
+@layer utilities {
+  .font-hand {
+    font-family: 'Patrick Hand', cursive;
+  }
+  
+  .sketch-border {
+    border: 2px solid var(--color-ink);
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 var(--color-ink);
+    transition: all 0.2s ease, background-color 0.3s ease;
+    background-color: var(--color-paper);
+  }
+  
+  .sketch-button {
+    border: 2px solid var(--color-ink);
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 var(--color-ink);
+    transition: all 0.1s ease;
+  }
+  
+  .sketch-button:active {
+    box-shadow: 0px 0px 0 var(--color-ink);
+    transform: translate(3px, 3px);
+  }
+
+  /* Notebook styling and spiral effect for sidebar */
+  .notebook-spiral {
+    position: relative;
+    background-color: var(--color-paper);
+    border-right: 2px solid var(--color-ink);
+    /* The paper texture inside sidebar */
+    background-image: 
+      radial-gradient(#e0dcd3 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .notebook-spiral::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 24px;
+    background-color: #e5e0d8;
+    border-right: 2px solid var(--color-ink);
+    z-index: 10;
+  }
+
+  /* The actual spiral rings and holes */
+  .notebook-spiral::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 0;
+    height: 100%;
+    width: 20px;
+    /* Drawing the metal rings and holes using gradients */
+    background-image: 
+      radial-gradient(circle at 10px 14px, #111 5px, transparent 6px),
+      linear-gradient(to right, #ccc 0%, #fff 40%, #888 60%, transparent 100%);
+    background-size: 100% 28px, 16px 28px;
+    background-position: 0 0, 4px -2px;
+    background-repeat: repeat-y;
+    z-index: 20;
+  }
+
+  .marker-highlight {
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+  }
+  
+  .marker-highlight::before {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: -4px;
+    right: -4px;
+    height: 60%;
+    z-index: -1;
+    transform: rotate(-2deg);
+    border-radius: 4px;
+  }
+  
+  .marker-pink::before {
+    background-color: var(--color-marker-pink);
+  }
+  
+  .marker-purple::before {
+    background-color: var(--color-marker-purple);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+  }
+  
+  /* Wavy line */
+  .wave-line {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 4"><path d="M0,2 Q5,0 10,2 T20,2" fill="none" stroke="%23ebdfff" stroke-width="2"/></svg>') repeat-x;
+    background-size: 20px 4px;
+  }
+}
