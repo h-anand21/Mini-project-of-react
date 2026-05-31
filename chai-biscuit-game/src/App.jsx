@@ -11,11 +11,21 @@ import ThemeSelector from './components/ThemeSelector/ThemeSelector';
 import { calculateWinner } from './utils/calculateWinner';
 import './App.css';
 
+const img1 = new Image();
+img1.src = '/confetti/IMG_20260601_021641.png';
+const img2 = new Image();
+img2.src = '/confetti/IMG_20260601_021645.png';
+const img3 = new Image();
+img3.src = '/confetti/IMG_20260601_025336.png';
+const img4 = new Image();
+img4.src = '/confetti/IMG_20260601_025539.png';
+
 function App() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
   const [scores, setScores] = useState({ X: 0, O: 0 });
   const [theme, setTheme] = useState('orange');
+  const [firstPlayer, setFirstPlayer] = useState('X'); // X = Developer, O = Bug
 
   const winInfo = calculateWinner(squares);
   const winner = winInfo ? winInfo.winner : null;
@@ -38,14 +48,20 @@ function App() {
     }
   };
 
+  const handleFirstPlayerChange = (player) => {
+    setFirstPlayer(player);
+    setSquares(Array(9).fill(null));
+    setXIsNext(player === 'X');
+  };
+
   const resetRound = () => {
     setSquares(Array(9).fill(null));
-    setXIsNext(true); // Developer always starts new round
+    setXIsNext(firstPlayer === 'X'); // Start with selected first player
   };
 
   const resetGame = () => {
     setSquares(Array(9).fill(null));
-    setXIsNext(true);
+    setXIsNext(firstPlayer === 'X');
     setScores({ X: 0, O: 0 });
   };
 
@@ -53,9 +69,10 @@ function App() {
     if (winner === 'X') {
       return (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
-          <Confetti recycle={false} numberOfPieces={100} gravity={0.25} drawShape={ctx => { ctx.font='35px sans-serif'; ctx.fillText('☕', -15, 10); }} />
-          <Confetti recycle={false} numberOfPieces={100} gravity={0.25} drawShape={ctx => { ctx.font='35px sans-serif'; ctx.fillText('🍪', -15, 10); }} />
-          <Confetti recycle={false} numberOfPieces={80} gravity={0.25} drawShape={ctx => { ctx.font='35px sans-serif'; ctx.fillText('💻', -15, 10); }} />
+          <Confetti recycle={false} numberOfPieces={25} gravity={0.2} drawShape={ctx => { ctx.drawImage(img1, -40, -40, 80, 80); }} />
+          <Confetti recycle={false} numberOfPieces={25} gravity={0.25} drawShape={ctx => { ctx.drawImage(img2, -40, -40, 80, 80); }} />
+          <Confetti recycle={false} numberOfPieces={20} gravity={0.3} drawShape={ctx => { ctx.drawImage(img3, -40, -40, 80, 80); }} />
+          <Confetti recycle={false} numberOfPieces={20} gravity={0.22} drawShape={ctx => { ctx.drawImage(img4, -40, -40, 80, 80); }} />
         </div>
       );
     } else if (winner === 'O') {
@@ -69,6 +86,9 @@ function App() {
     }
     return null;
   };
+
+
+
 
   return (
     <div className="app-container" data-theme={theme}>
@@ -95,12 +115,16 @@ function App() {
             <Header />
             
             <div style={{ position: 'relative', marginTop: '15px' }}>
-              <TurnIndicator isXNext={xIsNext} />
-              <Board squares={squares} onClick={handleClick} theme={theme} />
+              <Board squares={squares} onClick={handleClick} theme={theme} isXNext={xIsNext} />
             </div>
 
             <div className="bottom-plank">
-              <Controls onNewRound={resetRound} onReset={resetGame} />
+              <Controls 
+                onNewRound={resetRound} 
+                onReset={resetGame} 
+                firstPlayer={firstPlayer}
+                onFirstPlayerChange={handleFirstPlayerChange}
+              />
               <Footer />
             </div>
           </div>

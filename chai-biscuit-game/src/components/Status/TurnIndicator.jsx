@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './TurnIndicator.css';
 
-const TurnIndicator = ({ isXNext }) => {
+const TurnIndicator = ({ isXNext, theme }) => {
   return (
     <div className="turn-container">
       <AnimatePresence mode="wait">
@@ -14,7 +14,7 @@ const TurnIndicator = ({ isXNext }) => {
             exit={{ y: 20, opacity: 0 }}
             className="turn code-turn"
           >
-            💻 Developer's Turn
+            <span className="turn-icon">💻</span> Developer's Turn
           </motion.div>
         ) : (
           <motion.div
@@ -24,7 +24,7 @@ const TurnIndicator = ({ isXNext }) => {
             exit={{ y: 20, opacity: 0 }}
             className="turn bug-turn"
           >
-            🐞 Bug's Turn
+            <span className="turn-icon">🐞</span> Bug's Turn
           </motion.div>
         )}
       </AnimatePresence>
