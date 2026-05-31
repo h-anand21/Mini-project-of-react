@@ -1,26 +1,61 @@
+/* ── Controls Wrapper ── */
 .controls {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   position: absolute;
-  top: -30px;
+  top: -80px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
 }
 
+/* Single straight row layout */
+.controls-single-row {
+  flex-direction: row !important;
+  top: -45px;
+  gap: 10px;
+  align-items: stretch;
+}
+
+/* Row 1: Action Buttons */
+.controls-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Row 2: Settings */
+.controls-settings-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+  padding: 5px 10px;
+  border-radius: 40px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ── Base Button ── */
 .btn {
-  padding: 12px 25px;
+  padding: 11px 22px;
   border-radius: 40px;
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   border: none;
   position: relative;
   cursor: pointer;
-  transition: 0.15s;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
   white-space: nowrap;
+  font-family: inherit;
 }
 
 /* Green */
@@ -28,10 +63,7 @@
   background: linear-gradient(to bottom, #7da545, #5b7e2c);
   color: white;
   text-shadow: 0 2px 2px rgba(0,0,0,0.3);
-  box-shadow: 
-    0 8px 0 #3a5417, 
-    0 15px 20px rgba(0,0,0,0.5), 
-    inset 0 5px 10px rgba(255,255,255,0.4);
+  box-shadow: 0 7px 0 #3a5417, 0 12px 18px rgba(0,0,0,0.5), inset 0 5px 10px rgba(255,255,255,0.4);
 }
 .btn-green::before {
   content: ""; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
@@ -42,97 +74,171 @@
 .btn-orange {
   background: linear-gradient(to bottom, #efa85c, #d98835);
   color: #4a280b;
-  box-shadow: 
-    0 8px 0 #9c541b, 
-    0 15px 20px rgba(0,0,0,0.5), 
-    inset 0 5px 10px rgba(255,255,255,0.5);
+  box-shadow: 0 7px 0 #9c541b, 0 12px 18px rgba(0,0,0,0.5), inset 0 5px 10px rgba(255,255,255,0.5);
 }
 .btn-orange::before {
   content: ""; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
   border-radius: 35px; border: 2px dashed rgba(74, 40, 11, 0.3); pointer-events: none;
 }
 
-/* Red */
-.btn-red {
-  background: linear-gradient(to bottom, #e35a4d, #c2382c);
-  color: white;
-  text-shadow: 0 2px 2px rgba(0,0,0,0.3);
-  box-shadow: 
-    0 8px 0 #851c14, 
-    0 15px 20px rgba(0,0,0,0.5), 
-    inset 0 5px 10px rgba(255,255,255,0.4);
-}
-.btn-red::before {
-  content: ""; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
-  border-radius: 35px; border: 2px dashed rgba(255,255,255,0.5); pointer-events: none;
-}
-
-/* Active State */
+/* Active Press Effect */
 .btn:active {
-  transform: translateY(6px);
+  transform: translateY(5px);
 }
 .btn-green:active { box-shadow: 0 2px 0 #3a5417, 0 5px 10px rgba(0,0,0,0.5), inset 0 3px 8px rgba(0,0,0,0.2); }
 .btn-orange:active { box-shadow: 0 2px 0 #9c541b, 0 5px 10px rgba(0,0,0,0.5), inset 0 3px 8px rgba(0,0,0,0.2); }
 
-/* First Player Selector */
-.first-player-selector {
+/* ── Settings Pill (shared) ── */
+.settings-pill {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  background: linear-gradient(to bottom, #ffd93d, #f4a624);
-  padding: 8px 16px;
+  padding: 10px 18px;
   border-radius: 40px;
   border: none;
   position: relative;
-  box-shadow: 
-    0 8px 0 #b87012,
-    0 15px 20px rgba(0,0,0,0.5),
-    inset 0 5px 10px rgba(255,255,255,0.4);
-}
-
-.first-player-selector::before {
-  content: ""; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px;
-  border-radius: 35px; border: 2px dashed rgba(0,0,0,0.2); pointer-events: none;
-}
-
-.first-player-label {
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: #1a0a00;
-  text-shadow: none;
   white-space: nowrap;
 }
 
-.first-player-btn {
-  padding: 5px 12px;
-  border-radius: 30px;
+.settings-pill::before {
+  content: ""; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border-radius: 36px; border: 2px dashed rgba(0,0,0,0.18); pointer-events: none;
+}
+
+/* Match Target Pill - Green */
+.match-pill {
+  background: linear-gradient(to bottom, #7da545, #5b7e2c);
+  box-shadow: 0 6px 0 #3a5417, 0 12px 18px rgba(0,0,0,0.5), inset 0 4px 8px rgba(255,255,255,0.35);
+}
+.match-pill::before {
+  border-color: rgba(255,255,255,0.45) !important;
+}
+
+.match-pill .pill-label {
+  color: #4a280b;
+  text-shadow: none;
+  font-size: 1.1rem;
+}
+
+.match-pill .pill-btn {
+  color: #4a280b;
+  background: rgba(0,0,0,0.1);
+}
+
+.match-pill .pill-btn:hover {
+  background: rgba(0,0,0,0.2);
+  color: #2a1200;
+}
+
+/* Starts First Pill - Blue/Indigo */
+.starts-pill {
+  background: linear-gradient(to bottom, #6c8ff8, #4a6fe0);
+  box-shadow: 0 6px 0 #2c4aab, 0 12px 18px rgba(0,0,0,0.5), inset 0 4px 8px rgba(255,255,255,0.35);
+}
+.starts-pill::before {
+  border-color: rgba(255,255,255,0.35) !important;
+}
+
+.starts-pill .pill-label {
+  color: #4a280b;
+  text-shadow: none;
+  font-size: 1.1rem;
+}
+
+.starts-pill .pill-btn {
+  color: #4a280b;
+  background: rgba(0,0,0,0.1);
+}
+
+.starts-pill .pill-btn:hover {
+  background: rgba(0,0,0,0.2);
+  color: #2a1200;
+}
+
+/* Starts First Pill - Green */
+.starts-pill-green {
+  background: linear-gradient(to bottom, #7da545, #5b7e2c) !important;
+  box-shadow: 0 6px 0 #3a5417, 0 12px 18px rgba(0,0,0,0.5), inset 0 4px 8px rgba(255,255,255,0.35) !important;
+}
+
+.starts-pill-green::before {
+  border-color: rgba(255,255,255,0.45) !important;
+}
+
+.starts-pill-green .pill-label {
+  color: white !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.starts-pill-green .pill-btn {
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.15);
+}
+
+.starts-pill-green .pill-btn:hover {
+  background: rgba(255,255,255,0.28);
+  color: white;
+}
+
+/* ── Label inside pill ── */
+.pill-label {
+  font-size: 1.1rem;
+  font-weight: 900;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* ── Toggle buttons inside pill ── */
+.pill-btn {
+  padding: 7px 18px;
+  border-radius: 25px;
   font-weight: 800;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   border: 2px solid transparent;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
   background: rgba(0,0,0,0.1);
-  color: #1a0a00;
+  color: rgba(0,0,0,0.55);
   white-space: nowrap;
+  font-family: inherit;
 }
 
-.first-player-btn:hover {
+.match-pill .pill-btn {
+  color: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.12);
+}
+
+.pill-btn:hover {
   background: rgba(0,0,0,0.18);
   color: #000;
 }
 
-.first-player-btn.active-dev {
+.match-pill .pill-btn:hover {
+  background: rgba(255,255,255,0.22);
+  color: #fff;
+}
+
+/* Active states */
+.pill-btn.active-match {
+  background: linear-gradient(to bottom, #fff, #e8edff);
+  color: #2c3e8a;
+  border-color: rgba(255,255,255,0.6);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.pill-btn.active-dev {
   background: linear-gradient(to bottom, #7dc44a, #4d8a1f);
   color: white;
   border-color: rgba(255,255,255,0.4);
   text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-  box-shadow: inset 0 3px 6px rgba(255,255,255,0.3);
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.3);
 }
 
-.first-player-btn.active-bug {
+.pill-btn.active-bug {
   background: linear-gradient(to bottom, #ff7675, #d63031);
   color: white;
   border-color: rgba(255,255,255,0.4);
   text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-  box-shadow: inset 0 3px 6px rgba(255,255,255,0.3);
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.3);
 }

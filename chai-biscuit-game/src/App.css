@@ -117,17 +117,17 @@
   background: linear-gradient(to bottom, #9d5d2d, #5e310d);
   border-radius: 20px;
   box-shadow: 
-    inset 0 4px 6px rgba(255, 255, 255, 0.25), /* sharp top highlight */
-    inset 0 -8px 12px rgba(0, 0, 0, 0.7),      /* sharper bottom shadow */
-    0 15px 20px rgba(0, 0, 0, 0.6);            /* tighter drop shadow */
+    inset 0 4px 6px rgba(255, 255, 255, 0.25),
+    inset 0 -8px 12px rgba(0, 0, 0, 0.7),
+    0 15px 20px rgba(0, 0, 0, 0.6);
   border: 2px solid #361b06;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  margin-top: 35px; /* space for overlapping buttons */
+  margin-top: 35px;
   width: 850px; 
-  height: 95px; /* Increased height so they don't overlap */
+  height: 85px;
   border: 1px solid #5a2e0e;
 }
 
@@ -159,4 +159,66 @@
     flex-direction: column;
     gap: 30px;
   }
+}
+
+/* ── Match Winner Overlay ── */
+.match-winner-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  overflow: hidden;
+}
+
+/* Blurred background image behind the overlay */
+.match-winner-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/match-bg.png') center / cover no-repeat;
+  filter: blur(3px) brightness(0.55);
+  transform: scale(1.05); /* prevent blur edges */
+  z-index: 0;
+}
+
+.match-winner-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.match-winner-img {
+  width: 380px;
+  max-width: 90vw;
+  filter: drop-shadow(0 10px 40px rgba(255, 200, 80, 0.5));
+  animation: winner-bounce 0.6s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes winner-bounce {
+  0%   { transform: scale(0.3) rotate(-8deg); opacity: 0; }
+  60%  { transform: scale(1.08) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.match-winner-score {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 800;
+  background: rgba(255,255,255,0.1);
+  padding: 8px 24px;
+  border-radius: 30px;
+  border: 2px solid rgba(255,255,255,0.2);
+  margin: 0;
+}
+
+/* Match selector style tweak */
+.match-target-selector {
+  background: linear-gradient(to bottom, #ffd93d, #f4a624) !important;
+  box-shadow: 0 8px 0 #b87012, 0 15px 20px rgba(0,0,0,0.5), inset 0 5px 10px rgba(255,255,255,0.4) !important;
 }
