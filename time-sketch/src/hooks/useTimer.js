@@ -35,9 +35,31 @@ export function useTimer() {
             
             if (playSound) {
               try {
-                const audio = new Audio('/assets/bell.mp3'); 
-                audio.play().catch(e => console.log("Sound play failed", e));
-              } catch(e) {}
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) {
+                  const ctx = new AudioContext();
+                  const playBeep = (time) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(880, time); // A5 note
+                    gain.gain.setValueAtTime(0.1, time);
+                    gain.gain.setValueAtTime(0.1, time + 0.1);
+                    gain.gain.linearRampToValueAtTime(0, time + 0.15);
+                    osc.start(time);
+                    osc.stop(time + 0.15);
+                  };
+                  // Play 4 rapid beeps
+                  playBeep(ctx.currentTime);
+                  playBeep(ctx.currentTime + 0.2);
+                  playBeep(ctx.currentTime + 0.4);
+                  playBeep(ctx.currentTime + 0.6);
+                }
+              } catch(e) {
+                console.error("Audio failed", e);
+              }
             }
           } else {
             setTimeRemaining(remaining);
