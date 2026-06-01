@@ -71,6 +71,7 @@
 
 @media (max-width: 950px) {
   .app-container::before {
+    background-image: url('/mobile-bg.png');
     background-size: cover;
     background-position: center;
     top: -10px;
