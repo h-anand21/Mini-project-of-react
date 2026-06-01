@@ -242,3 +242,23 @@
   text-shadow: 0 1px 3px rgba(0,0,0,0.4);
   box-shadow: inset 0 2px 5px rgba(255,255,255,0.3);
 }
+
+/* ── Mobile Specific Layout ── */
+@media (max-width: 950px) {
+  .controls {
+    position: static !important;
+    transform: none !important;
+    left: auto !important;
+    margin: 0 !important;
+  }
+  .controls-single-row {
+    flex-direction: column !important;
+    width: auto;
+    align-items: center;
+    top: 0;
+    gap: 12px;
+  }
+  .starts-pill, .match-pill {
+    width: auto;
+  }
+}

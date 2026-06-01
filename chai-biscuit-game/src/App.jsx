@@ -127,7 +127,7 @@ function App() {
           <div className="center-column">
             <Header />
 
-            <div style={{ position: 'relative', marginTop: '15px' }}>
+            <div className="board-wrapper" style={{ position: 'relative', marginTop: '15px' }}>
               <Board squares={squares} onClick={handleClick} theme={theme} isXNext={xIsNext} />
             </div>
 
