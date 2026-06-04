@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Confetti from 'react-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import Header from './components/Header/Header';
@@ -9,6 +9,7 @@ import Controls from './components/Controls/Controls';
 import Footer from './components/Footer/Footer';
 import ThemeSelector from './components/ThemeSelector/ThemeSelector';
 import { calculateWinner } from './utils/calculateWinner';
+import { usePeer } from './hooks/usePeer';
 import './App.css';
 
 // Preload confetti images
@@ -31,13 +32,42 @@ function App() {
   const winner = winInfo ? winInfo.winner : null;
   const isDraw = !winner && squares.every((sq) => sq !== null);
 
-  const handleClick = (i) => {
+  const handleReceiveData = (data) => {
+    if (data.type === 'MOVE') {
+      handleClick(data.index, true);
+    } else if (data.type === 'RESET_ROUND') {
+      resetRound(true);
+    } else if (data.type === 'RESET_GAME') {
+      resetGame(true);
+    }
+  };
+
+  const { peerId, status: peerStatus, isHost, initHost, joinGame, sendData, disconnect } = usePeer(handleReceiveData);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const joinId = params.get('join');
+    if (joinId && peerStatus === 'disconnected') {
+      joinGame(joinId);
+    }
+  }, [joinGame, peerStatus]);
+
+  const handleClick = (i, isRemote = false) => {
     if (squares[i] || winner || matchWinner) return;
+
+    if (peerStatus === 'connected' && !isRemote) {
+      if (isHost && !xIsNext) return;
+      if (!isHost && xIsNext) return;
+    }
 
     const nextSquares = squares.slice();
     nextSquares[i] = xIsNext ? 'X' : 'O';
     setSquares(nextSquares);
     setXIsNext(!xIsNext);
+
+    if (peerStatus === 'connected' && !isRemote) {
+      sendData({ type: 'MOVE', index: i });
+    }
 
     const newWinInfo = calculateWinner(nextSquares);
     if (newWinInfo) {
@@ -55,6 +85,7 @@ function App() {
   };
 
   useEffect(() => {
+    if (peerStatus === 'connected') return; // Disable bot in multiplayer
     if (isBotEnabled && !xIsNext && !winner && !matchWinner && !isDraw) {
       const timer = setTimeout(() => {
         const emptyIndices = squares.map((sq, i) => sq === null ? i : null).filter(i => i !== null);
@@ -118,16 +149,22 @@ function App() {
     setMatchWinner(null);
   };
 
-  const resetRound = () => {
+  const resetRound = (isRemote = false) => {
     setSquares(Array(9).fill(null));
     setXIsNext(firstPlayer === 'X');
+    if (peerStatus === 'connected' && !isRemote) {
+      sendData({ type: 'RESET_ROUND' });
+    }
   };
 
-  const resetGame = () => {
+  const resetGame = (isRemote = false) => {
     setSquares(Array(9).fill(null));
     setXIsNext(firstPlayer === 'X');
     setScores({ X: 0, O: 0 });
     setMatchWinner(null);
+    if (peerStatus === 'connected' && !isRemote) {
+      sendData({ type: 'RESET_GAME' });
+    }
   };
 
   // Rain on every round win
@@ -192,6 +229,10 @@ function App() {
                 onMatchTargetChange={handleMatchTargetChange}
                 isBotEnabled={isBotEnabled}
                 onBotChange={setIsBotEnabled}
+                peerStatus={peerStatus}
+                peerId={peerId}
+                initHost={initHost}
+                isHost={isHost}
               />
               <Footer />
             </div>
