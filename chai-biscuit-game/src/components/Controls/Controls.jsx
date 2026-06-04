@@ -1,7 +1,7 @@
 import React from 'react';
 import './Controls.css';
 
-const Controls = ({ onReset, onNewRound, firstPlayer, onFirstPlayerChange, matchTarget, onMatchTargetChange }) => {
+const Controls = ({ onReset, onNewRound, firstPlayer, onFirstPlayerChange, matchTarget, onMatchTargetChange, isBotEnabled, onBotChange }) => {
   return (
     <div className="controls controls-single-row">
 
@@ -41,6 +41,23 @@ const Controls = ({ onReset, onNewRound, firstPlayer, onFirstPlayerChange, match
           onClick={() => onFirstPlayerChange('O')}
         >
           🐞 Bug
+        </button>
+      </div>
+
+      {/* Bot Mode - Green */}
+      <div className="settings-pill match-pill">
+        <span className="pill-label">🤖 Play With:</span>
+        <button
+          className={`pill-btn ${!isBotEnabled ? 'active-match' : ''}`}
+          onClick={() => onBotChange(false)}
+        >
+          Friend
+        </button>
+        <button
+          className={`pill-btn ${isBotEnabled ? 'active-match' : ''}`}
+          onClick={() => onBotChange(true)}
+        >
+          Bot
         </button>
       </div>
 

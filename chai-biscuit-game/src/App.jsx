@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Confetti from 'react-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import Header from './components/Header/Header';
@@ -25,6 +25,7 @@ function App() {
   const [firstPlayer, setFirstPlayer] = useState('X');
   const [matchTarget, setMatchTarget] = useState(5);   // 5 or 10
   const [matchWinner, setMatchWinner] = useState(null); // 'X' or 'O' when match is over
+  const [isBotEnabled, setIsBotEnabled] = useState(false);
 
   const winInfo = calculateWinner(squares);
   const winner = winInfo ? winInfo.winner : null;
@@ -52,6 +53,56 @@ function App() {
       }
     }
   };
+
+  useEffect(() => {
+    if (isBotEnabled && !xIsNext && !winner && !matchWinner && !isDraw) {
+      const timer = setTimeout(() => {
+        const emptyIndices = squares.map((sq, i) => sq === null ? i : null).filter(i => i !== null);
+        if (emptyIndices.length === 0) return;
+        
+        let move = -1;
+        
+        const checkWin = (squaresArray, player) => {
+          const lines = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+          ];
+          for (let i = 0; i < lines.length; i++) {
+            const [a, b, c] = lines[i];
+            if (squaresArray[a] === player && squaresArray[b] === player && squaresArray[c] === null) return c;
+            if (squaresArray[a] === player && squaresArray[c] === player && squaresArray[b] === null) return b;
+            if (squaresArray[b] === player && squaresArray[c] === player && squaresArray[a] === null) return a;
+          }
+          return -1;
+        };
+        
+        // 1. Can Bot win?
+        move = checkWin(squares, 'O');
+        
+        // 2. Can Developer win? Block it.
+        if (move === -1) {
+          move = checkWin(squares, 'X');
+        }
+        
+        // 3. Take Center if available
+        if (move === -1 && squares[4] === null) {
+          move = 4;
+        }
+        
+        // 4. Random available move
+        if (move === -1) {
+          move = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+        }
+        
+        if (move !== -1) {
+          handleClick(move);
+        }
+      }, 500); // 500ms delay to feel natural
+      
+      return () => clearTimeout(timer);
+    }
+  }, [xIsNext, isBotEnabled, winner, matchWinner, isDraw, squares]);
 
   const handleFirstPlayerChange = (player) => {
     setFirstPlayer(player);
@@ -139,6 +190,8 @@ function App() {
                 onFirstPlayerChange={handleFirstPlayerChange}
                 matchTarget={matchTarget}
                 onMatchTargetChange={handleMatchTargetChange}
+                isBotEnabled={isBotEnabled}
+                onBotChange={setIsBotEnabled}
               />
               <Footer />
             </div>
