@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import Peer from 'peerjs';
 
 export const usePeer = (onReceiveData) => {
   const [peerId, setPeerId] = useState(null);
@@ -17,7 +16,7 @@ export const usePeer = (onReceiveData) => {
     setStatus('hosting');
     // Generate a unique 6-character room ID
     const newId = 'chai-biscuit-' + Math.random().toString(36).substr(2, 6);
-    const peer = new Peer(newId);
+    const peer = new window.Peer(newId);
     
     peer.on('open', (id) => {
       setPeerId(id);
@@ -45,7 +44,7 @@ export const usePeer = (onReceiveData) => {
 
   const joinGame = useCallback((targetId) => {
     setStatus('connecting');
-    const peer = new Peer();
+    const peer = new window.Peer();
     
     peer.on('open', () => {
       const conn = peer.connect(targetId);
